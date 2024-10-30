@@ -37,7 +37,7 @@ class ProductsItemWidget extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 color: Colors.black54,
                 child: Text(
-                  'P${product.price.toString()}',
+                  '\$${product.price.toString()}',
                   textAlign: TextAlign.right,
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, color: Colors.white),
