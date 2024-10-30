@@ -9,17 +9,24 @@ class ProductDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            flexibleSpace: FlexibleSpaceBar(
-              background: Image.network(
-                product.image,
-                fit: BoxFit.cover,
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              expandedHeight: 300,
+              pinned: true,
+              flexibleSpace: FlexibleSpaceBar(
+                title: Container(
+                  color: Colors.red,
+                ),
+                background: Image.network(
+                  product.image,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

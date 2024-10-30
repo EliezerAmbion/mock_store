@@ -21,7 +21,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home Screen'),
+        centerTitle: true,
+        title: const Text('Mock Store'),
+        actions: const [
+          Icon(Icons.sort),
+          Icon(Icons.filter),
+        ],
       ),
       body: BlocConsumer<ProductsBloc, ProductsState>(
         listener: (context, state) {
