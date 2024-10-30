@@ -7,7 +7,8 @@ class AppBlocInjection {
   static List<BlocProvider> getProviders() {
     return [
       BlocProvider<ProductsBloc>(
-        create: (BuildContext context) => getIt<ProductsBloc>(),
+        create: (BuildContext context) =>
+            getIt<ProductsBloc>()..add(const GetProducts()),
       ),
       // Add other BLoC providers here
     ];

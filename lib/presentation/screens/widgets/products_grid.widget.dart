@@ -8,28 +8,43 @@ class ProductsGridWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProductsBloc, ProductsState>(
-      builder: (context, state) {
-        final products = state.products ?? [];
-
-        return CustomScrollView(
-          slivers: [
-            SliverGrid.builder(
-              itemCount: products.length,
-              itemBuilder: (context, index) {
-                return ProductsItemWidget(
-                  image: products[index].image,
-                  title: products[index].title,
-                );
-              },
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 3 / 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
+    return BlocConsumer<ProductsBloc, ProductsState>(
+      listener: (context, state) {
+        if (state is ProductsError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Center(
+                child: Text(
+                  state.errorMessage.toString(),
+                ),
               ),
             ),
-          ],
+          );
+        }
+      },
+      builder: (context, state) {
+        if (state is ProductsLoaded) {
+          final products = state.products ?? [];
+
+          return CustomScrollView(
+            slivers: [
+              SliverGrid.builder(
+                itemCount: products.length,
+                itemBuilder: (context, index) {
+                  return ProductsItemWidget(product: products[index]);
+                },
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 3 / 3,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                ),
+              ),
+            ],
+          );
+        }
+        return const Center(
+          child: CircularProgressIndicator(),
         );
       },
     );

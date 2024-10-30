@@ -1,24 +1,37 @@
 part of 'products_bloc.dart';
 
-sealed class ProductsState extends Equatable {
-  final List<ProductsModel>? products;
-  final DioException? error;
-
-  const ProductsState({this.products, this.error});
+abstract class ProductsState extends Equatable {
+  const ProductsState();
 
   @override
-  List<Object> get props => [products ?? [], error ?? 'Error'];
+  List<Object> get props => [];
 }
 
-final class ProductsInitial extends ProductsState {
-  const ProductsInitial() : super();
-}
+final class ProductsInitial extends ProductsState {}
 
 final class ProductsLoaded extends ProductsState {
-  const ProductsLoaded(List<ProductsModel> products)
-      : super(products: products);
+  final List<ProductsModel> products;
+
+  const ProductsLoaded(this.products);
+
+  @override
+  List<Object> get props => [products];
+}
+
+class ProductDetailLoaded extends ProductsState {
+  final ProductsModel product;
+
+  const ProductDetailLoaded(this.product);
+
+  @override
+  List<Object> get props => [product];
 }
 
 final class ProductsError extends ProductsState {
-  const ProductsError(DioException error) : super(error: error);
+  final DioException? errorMessage;
+
+  const ProductsError(this.errorMessage);
+
+  @override
+  List<Object> get props => [errorMessage ?? 'Error'];
 }

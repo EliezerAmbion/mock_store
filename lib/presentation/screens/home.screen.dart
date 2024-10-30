@@ -3,22 +3,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mock_store/presentation/blocs/products/products_bloc.dart';
 import 'package:mock_store/presentation/screens/widgets/products_grid.widget.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    context.read<ProductsBloc>().add(const GetProducts());
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    print('>> (11): home.screen <<\n==> home page init <==');
+    context.read<ProductsBloc>().add(const GetProducts());
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home Screen'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.download),
-        onPressed: () async {
-          context.read<ProductsBloc>().add(const GetProducts());
-        },
       ),
       body: BlocConsumer<ProductsBloc, ProductsState>(
         listener: (context, state) {
@@ -27,7 +31,7 @@ class HomeScreen extends StatelessWidget {
               SnackBar(
                 content: Center(
                   child: Text(
-                    state.error.toString(),
+                    state.errorMessage.toString(),
                   ),
                 ),
               ),
@@ -42,10 +46,7 @@ class HomeScreen extends StatelessWidget {
           }
 
           return const Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 8.0,
-              vertical: 25,
-            ),
+            padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 25),
             child: ProductsGridWidget(),
           );
         },

@@ -10,3 +10,12 @@ abstract class ProductsEvent extends Equatable {
 class GetProducts extends ProductsEvent {
   const GetProducts();
 }
+
+class GetProductById extends ProductsEvent {
+  final int id;
+
+  const GetProductById(this.id);
+
+  @override
+  List<Object> get props => [id];
+}
