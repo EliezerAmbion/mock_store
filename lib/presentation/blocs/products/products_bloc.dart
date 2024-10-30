@@ -18,6 +18,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     on<GetProducts>(onGetProducts);
     on<GetProductById>(onGetProductById);
     on<SearchProducts>(onSearchProducts);
+    on<SortProducts>(onSortProducts);
   }
 
   void onGetProducts(GetProducts event, Emitter<ProductsState> emit) async {
@@ -65,5 +66,18 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     } else {
       emit(const ProductsLoaded([]));
     }
+  }
+
+  void onSortProducts(SortProducts event, Emitter<ProductsState> emit) {
+    final sortedProducts = List<ProductsModel>.from(_allProducts);
+    sortedProducts.sort((a, b) {
+      if (event.isAscending) {
+        return a.price.compareTo(b.price);
+      } else {
+        return b.price.compareTo(a.price);
+      }
+    });
+
+    emit(ProductsLoaded(sortedProducts));
   }
 }

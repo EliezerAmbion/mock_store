@@ -28,3 +28,12 @@ class SearchProducts extends ProductsEvent {
   @override
   List<Object> get props => [query];
 }
+
+class SortProducts extends ProductsEvent {
+  final bool isAscending;
+
+  const SortProducts(this.isAscending);
+
+  @override
+  List<Object> get props => [isAscending];
+}

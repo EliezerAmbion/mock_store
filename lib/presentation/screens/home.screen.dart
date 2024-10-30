@@ -11,6 +11,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool _isAscending = true;
+
   @override
   void initState() {
     context.read<ProductsBloc>().add(const GetProducts());
@@ -39,8 +41,19 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
         ),
-        actions: const [
-          Icon(Icons.sort),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  _isAscending = !_isAscending;
+                });
+                context.read<ProductsBloc>().add(SortProducts(_isAscending));
+              },
+              child: const Icon(Icons.sort),
+            ),
+          ),
         ],
       ),
       body: BlocConsumer<ProductsBloc, ProductsState>(
