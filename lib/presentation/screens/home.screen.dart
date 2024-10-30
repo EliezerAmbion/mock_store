@@ -13,7 +13,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
-    print('>> (11): home.screen <<\n==> home page init <==');
     context.read<ProductsBloc>().add(const GetProducts());
     super.initState();
   }

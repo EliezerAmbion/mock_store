@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mock_store/data/models/products/products.model.dart';
-import 'package:mock_store/utils/routes.dart';
+import 'package:mock_store/presentation/screens/product_detail/product_detail.screen.dart';
 
 class ProductsItemWidget extends StatelessWidget {
   final ProductsModel product;
@@ -13,8 +12,15 @@ class ProductsItemWidget extends StatelessWidget {
     const double rad = 12;
 
     return GestureDetector(
-      onTap: () => context
-          .go(Routes.productDetails.replaceAll(':id', product.id.toString())),
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) {
+              return ProductDetailScreen(product: product);
+            },
+          ),
+        );
+      },
       child: Card(
         elevation: 4,
         shape: RoundedRectangleBorder(
