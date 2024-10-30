@@ -29,14 +29,19 @@ class ProductsItemWidget extends StatelessWidget {
         child: GridTile(
           header: Align(
             alignment: Alignment.topRight,
-            child: Container(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              color: Colors.black54,
-              child: Text(
-                'P${product.price.toString()}',
-                textAlign: TextAlign.right,
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold, color: Colors.white),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(rad),
+              ),
+              child: Container(
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                color: Colors.black54,
+                child: Text(
+                  'P${product.price.toString()}',
+                  textAlign: TextAlign.right,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.white),
+                ),
               ),
             ),
           ),

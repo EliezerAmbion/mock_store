@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mock_store/data/models/products/products.model.dart';
 import 'package:mock_store/presentation/blocs/products/products_bloc.dart';
 import 'package:mock_store/presentation/screens/widgets/products_item.widget.dart';
 
 class ProductsGridWidget extends StatelessWidget {
-  const ProductsGridWidget({super.key});
+  final List<ProductsModel> products;
+
+  const ProductsGridWidget({required this.products, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +27,7 @@ class ProductsGridWidget extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is ProductsLoaded) {
-          final products = state.products ?? [];
+          // final products = state.products ?? [];
 
           return CustomScrollView(
             slivers: [

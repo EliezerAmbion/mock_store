@@ -22,10 +22,25 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Mock Store'),
+        title: SizedBox(
+          width: MediaQuery.sizeOf(context).width * .7,
+          child: TextField(
+            decoration: InputDecoration(
+              hintText: 'Search...',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.0), // Rounded corners
+                borderSide: BorderSide.none,
+              ),
+              fillColor: Colors.white,
+              filled: true,
+            ),
+            onChanged: (value) {
+              context.read<ProductsBloc>().add(SearchProducts(value));
+            },
+          ),
+        ),
         actions: const [
           Icon(Icons.sort),
-          Icon(Icons.filter),
         ],
       ),
       body: BlocConsumer<ProductsBloc, ProductsState>(
@@ -47,12 +62,15 @@ class _HomeScreenState extends State<HomeScreen> {
             return const Center(
               child: CircularProgressIndicator(),
             );
+          } else if (state is ProductsLoaded) {
+            return Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 25),
+              child: ProductsGridWidget(products: state.products),
+            );
           }
 
-          return const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 25),
-            child: ProductsGridWidget(),
-          );
+          return const SizedBox.shrink();
         },
       ),
     );

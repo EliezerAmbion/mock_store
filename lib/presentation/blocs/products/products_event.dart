@@ -19,3 +19,12 @@ class GetProductById extends ProductsEvent {
   @override
   List<Object> get props => [id];
 }
+
+class SearchProducts extends ProductsEvent {
+  final String query;
+
+  const SearchProducts(this.query);
+
+  @override
+  List<Object> get props => [query];
+}
