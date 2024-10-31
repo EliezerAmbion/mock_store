@@ -19,19 +19,19 @@ class SearchProducts extends ProductsEvent {
 }
 
 class SortProductsByTitle extends ProductsEvent {
-  final bool isAscending;
+  final bool isAscendingByTitle;
 
-  const SortProductsByTitle(this.isAscending);
+  const SortProductsByTitle(this.isAscendingByTitle);
   @override
-  List<Object> get props => [isAscending];
+  List<Object> get props => [isAscendingByTitle];
 }
 
 class SortProductsByPrice extends ProductsEvent {
-  final bool isAscending;
+  final bool isAscendingByPrice;
 
-  const SortProductsByPrice(this.isAscending);
+  const SortProductsByPrice(this.isAscendingByPrice);
   @override
-  List<Object> get props => [isAscending];
+  List<Object> get props => [isAscendingByPrice];
 }
 
 class WishlistProduct extends ProductsEvent {

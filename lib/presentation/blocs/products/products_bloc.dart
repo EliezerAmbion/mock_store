@@ -9,14 +9,16 @@ import 'package:mock_store/domain/usecases/get_products.usecase.dart';
 part 'products_event.dart';
 part 'products_state.dart';
 
+enum Sorting { ascending, descending, lowToHigh, highToLow }
+
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   final GetProductsUseCase _getProductsUseCase;
   final AddProductUseCase _addProductUseCase;
   final DeleteProductUseCase _deleteProductUseCase;
 
   List<ProductsModel> _allProducts = [];
-  // bool _isAscending = true;
   bool _isDataLoaded = false;
+  Sorting _sorting = Sorting.ascending;
 
   ProductsBloc(this._getProductsUseCase, this._addProductUseCase,
       this._deleteProductUseCase)
@@ -106,28 +108,40 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
 
   void onSortProductsByTitle(
       SortProductsByTitle event, Emitter<ProductsState> emit) {
-    // _isAscending = event.isAscending;
     final sortedProducts = List<ProductsModel>.from(_allProducts);
 
-    sortedProducts.sort((a, b) {
-      return event.isAscending
-          ? a.title.compareTo(b.title)
-          : b.title.compareTo(a.title);
-    });
+    if (event.isAscendingByTitle) {
+      _sorting = Sorting.ascending;
+      sortedProducts.sort((a, b) {
+        return a.title.compareTo(b.title);
+      });
+    }
+    if (!event.isAscendingByTitle) {
+      _sorting = Sorting.descending;
+      sortedProducts.sort((a, b) {
+        return b.title.compareTo(a.title);
+      });
+    }
 
     emit(ProductsLoaded(sortedProducts));
   }
 
   void onSortProductsByPrice(
       SortProductsByPrice event, Emitter<ProductsState> emit) {
-    // _isAscending = event.isAscending;
     final sortedProducts = List<ProductsModel>.from(_allProducts);
 
-    sortedProducts.sort((a, b) {
-      return event.isAscending
-          ? a.price.compareTo(b.price)
-          : b.price.compareTo(a.price);
-    });
+    if (event.isAscendingByPrice) {
+      _sorting = Sorting.lowToHigh;
+      sortedProducts.sort((a, b) {
+        return a.price.compareTo(b.price);
+      });
+    }
+    if (!event.isAscendingByPrice) {
+      _sorting = Sorting.highToLow;
+      sortedProducts.sort((a, b) {
+        return b.price.compareTo(a.price);
+      });
+    }
 
     emit(ProductsLoaded(sortedProducts));
   }
@@ -142,12 +156,26 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     }).toList();
 
     final sortedProducts = List<ProductsModel>.from(_allProducts);
-    sortedProducts.sort((a, b) {
-      return a.price.compareTo(b.price);
-      // return _isAscending
-      //     ? a.price.compareTo(b.price)
-      //     : b.price.compareTo(a.price);
-    });
+    if (_sorting == Sorting.ascending) {
+      sortedProducts.sort((a, b) {
+        return a.title.compareTo(b.title);
+      });
+    }
+    if (_sorting == Sorting.descending) {
+      sortedProducts.sort((a, b) {
+        return b.title.compareTo(a.title);
+      });
+    }
+    if (_sorting == Sorting.lowToHigh) {
+      sortedProducts.sort((a, b) {
+        return a.price.compareTo(b.price);
+      });
+    }
+    if (_sorting == Sorting.highToLow) {
+      sortedProducts.sort((a, b) {
+        return b.price.compareTo(a.price);
+      });
+    }
 
     emit(ProductsLoaded(sortedProducts));
   }
