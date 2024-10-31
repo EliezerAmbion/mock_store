@@ -12,8 +12,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool _isAscending = true;
-
   @override
   void initState() {
     context.read<ProductsBloc>().add(const GetProducts());
@@ -23,40 +21,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: SizedBox(
-          width: MediaQuery.sizeOf(context).width * .7,
-          child: TextField(
-            decoration: InputDecoration(
-              hintText: 'Search...',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0), // Rounded corners
-                borderSide: BorderSide.none,
-              ),
-              fillColor: Colors.white,
-              filled: true,
-            ),
-            onChanged: (value) {
-              context.read<ProductsBloc>().add(SearchProducts(value));
-            },
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 12),
-            child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  _isAscending = !_isAscending;
-                });
-                context.read<ProductsBloc>().add(SortProducts(_isAscending));
-              },
-              child: const Icon(Icons.sort),
-            ),
-          ),
-        ],
-      ),
       body: BlocConsumer<ProductsBloc, ProductsState>(
         listener: (context, state) {
           if (state is ProductsError) {

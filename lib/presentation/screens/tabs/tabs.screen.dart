@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:mock_store/presentation/screens/home/home.screen.dart';
+import 'package:mock_store/presentation/screens/tabs/widgets/appbar_with_search.widget.dart';
+import 'package:mock_store/presentation/screens/tabs/widgets/custom_bottom_navbar.widget.dart';
+import 'package:mock_store/presentation/screens/tabs/widgets/custom_drawer.widget.dart';
+import 'package:mock_store/presentation/screens/tabs/widgets/simple_appbar.widget.dart';
 import 'package:mock_store/presentation/screens/wishlist/wishlist.screen.dart';
 
 class TabsScreen extends StatefulWidget {
@@ -37,37 +40,27 @@ class _TabsScreenState extends State<TabsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final isMobile = screenWidth < 600;
+
     return Scaffold(
+      appBar: _selectedPageIndex == 0
+          ? AppBarWithSearchWidget(isMobile: isMobile)
+          : const SimpleAppBarWidget(),
+      drawer: isMobile
+          ? null
+          : CustomDrawerWidget(
+              pages: _pages,
+              selectedPageIndex: _selectedPageIndex,
+              onSelectPage: _selectPage,
+            ),
       body: _pages[_selectedPageIndex]['page'],
-      bottomNavigationBar: Container(
-        color: Colors.teal,
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        child: GNav(
-          onTabChange: (index) {
-            _selectPage(index);
-          },
-          selectedIndex: _selectedPageIndex,
-          backgroundColor: Colors.teal,
-          color: Colors.black,
-          activeColor: Colors.black,
-          tabBackgroundColor: Colors.white,
-          gap: 8,
-          padding: const EdgeInsets.all(16),
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          tabs: [
-            const GButton(
-              icon: Icons.home,
-              text: 'Home',
-            ),
-            GButton(
-              icon: _selectedPageIndex == 1
-                  ? Icons.favorite
-                  : Icons.favorite_border,
-              text: 'WishList',
-            ),
-          ],
-        ),
-      ),
+      bottomNavigationBar: isMobile
+          ? CustomBottomNavbarWidget(
+              selectedPageIndex: _selectedPageIndex,
+              onSelectPage: _selectPage,
+            )
+          : null,
     );
   }
 }
