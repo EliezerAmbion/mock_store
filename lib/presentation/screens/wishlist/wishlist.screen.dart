@@ -20,24 +20,43 @@ class WishListScreen extends StatelessWidget {
             if (wishListedProducts.isEmpty) {
               return const Center(child: Text('No products in your wishlist.'));
             }
+            return LayoutBuilder(builder: (context, constraints) {
+              int crossAxisCount;
+              double horizontalPadding;
 
-            return CustomScrollView(
-              slivers: [
-                SliverGrid.builder(
-                  itemCount: wishListedProducts.length,
-                  itemBuilder: (context, index) {
-                    final product = wishListedProducts[index];
-                    return ProductsItemWidget(product: product);
-                  },
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 3 / 3,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
+              if (constraints.maxWidth < 700) {
+                crossAxisCount = 2;
+                horizontalPadding = 5;
+              } else if (constraints.maxWidth < 900) {
+                crossAxisCount = 3;
+                horizontalPadding = 50;
+              } else {
+                crossAxisCount = 4;
+                horizontalPadding = 100;
+              }
+
+              return CustomScrollView(
+                slivers: [
+                  SliverPadding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: horizontalPadding),
+                    sliver: SliverGrid.builder(
+                      itemCount: wishListedProducts.length,
+                      itemBuilder: (context, index) {
+                        final product = wishListedProducts[index];
+                        return ProductsItemWidget(product: product);
+                      },
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: crossAxisCount,
+                        childAspectRatio: 3 / 3,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                      ),
+                    ),
                   ),
-                ),
-              ],
-            );
+                ],
+              );
+            });
           }
 
           return const SizedBox.shrink();

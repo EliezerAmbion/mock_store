@@ -35,26 +35,34 @@ class ProductsGridWidget extends StatelessWidget {
 
           return LayoutBuilder(builder: (context, constraints) {
             int crossAxisCount;
-            if (constraints.maxWidth < 600) {
+            double horizontalPadding;
+
+            if (constraints.maxWidth < 700) {
               crossAxisCount = 2;
+              horizontalPadding = 5;
             } else if (constraints.maxWidth < 900) {
               crossAxisCount = 3;
+              horizontalPadding = 50;
             } else {
               crossAxisCount = 4;
+              horizontalPadding = 100;
             }
 
             return CustomScrollView(
               slivers: [
-                SliverGrid.builder(
-                  itemCount: products.length,
-                  itemBuilder: (context, index) {
-                    return ProductsItemWidget(product: products[index]);
-                  },
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: crossAxisCount,
-                    childAspectRatio: 3 / 3,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
+                SliverPadding(
+                  padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+                  sliver: SliverGrid.builder(
+                    itemCount: products.length,
+                    itemBuilder: (context, index) {
+                      return ProductsItemWidget(product: products[index]);
+                    },
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: crossAxisCount,
+                      childAspectRatio: 3 / 3,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                    ),
                   ),
                 ),
               ],
