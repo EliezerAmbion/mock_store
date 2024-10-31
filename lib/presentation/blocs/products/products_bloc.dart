@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mock_store/data/models/products/products.model.dart';
+import 'package:mock_store/domain/usecases/add_product.usecase.dart';
 import 'package:mock_store/domain/usecases/get_products.usecase.dart';
 
 part 'products_event.dart';
@@ -9,15 +10,19 @@ part 'products_state.dart';
 
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   final GetProductsUseCase _getProductsUseCase;
+  final AddProductUseCase _addProductUseCase;
+
   List<ProductsModel> _allProducts = [];
   bool _isAscending = true;
   bool _isDataLoaded = false;
 
-  ProductsBloc(this._getProductsUseCase) : super(const ProductsInitial()) {
+  ProductsBloc(this._getProductsUseCase, this._addProductUseCase)
+      : super(const ProductsInitial()) {
     on<GetProducts>(onGetProducts);
     on<SearchProducts>(onSearchProducts);
     on<SortProducts>(onSortProducts);
     on<WishlistProduct>(onWishlist);
+    on<AddProduct>(onAddProduct);
   }
 
   void onGetProducts(GetProducts event, Emitter<ProductsState> emit) async {
@@ -44,6 +49,23 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         error: e.toString(),
       )));
       throw Exception(e.toString());
+    }
+  }
+
+  void onAddProduct(AddProduct event, Emitter<ProductsState> emit) async {
+    try {
+      final addedProduct = await _addProductUseCase(event.product);
+      _allProducts.add(addedProduct);
+
+      final sortedProducts = List<ProductsModel>.from(_allProducts)
+        ..sort((a, b) => a.price.compareTo(b.price));
+
+      emit(ProductsLoaded(List.from(sortedProducts)));
+    } catch (e) {
+      emit(ProductsError(DioException(
+        requestOptions: RequestOptions(path: '/products'),
+        error: e.toString(),
+      )));
     }
   }
 

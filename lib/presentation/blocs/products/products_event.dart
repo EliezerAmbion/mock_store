@@ -42,3 +42,12 @@ class WishlistProduct extends ProductsEvent {
   @override
   List<Object> get props => [product];
 }
+
+class AddProduct extends ProductsEvent {
+  final ProductsModel product;
+
+  const AddProduct(this.product);
+
+  @override
+  List<Object?> get props => [product];
+}

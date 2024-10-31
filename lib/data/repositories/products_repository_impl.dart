@@ -31,7 +31,7 @@ class ProductsRepositoryImpl implements ProductsRepository {
     try {
       final response = await _productsService.addProduct(product.toJson());
 
-      if (response.response.statusCode != HttpStatus.created) {
+      if (response.response.statusCode != HttpStatus.ok) {
         throw Exception(
             'Failed to add product. Error: ${response.response.statusCode}');
       }
