@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mock_store/presentation/blocs/products/products_bloc.dart';
-import 'package:mock_store/presentation/screens/widgets/products_grid.widget.dart';
+import 'package:mock_store/presentation/screens/home/widgets/products_grid.widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -77,14 +77,30 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           } else if (state is ProductsLoaded) {
             return Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 25),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
               child: ProductsGridWidget(products: state.products ?? []),
             );
           }
 
           return const SizedBox.shrink();
         },
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite), // Change icon as needed
+            label: 'Wishlist',
+          ),
+        ],
+        // currentIndex: _currentIndex,
+        // onTap: _onItemTapped,
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.grey,
+        backgroundColor: Colors.black,
       ),
     );
   }
