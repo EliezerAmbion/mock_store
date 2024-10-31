@@ -145,11 +145,14 @@ class ProductDetailScreen extends StatelessWidget {
                   ),
                 ),
                 const Gap(5),
-                Text(
-                  product.description,
-                  style: TextStyle(
-                    fontSize: descriptionSize,
-                    fontWeight: FontWeight.normal,
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    product.description,
+                    style: TextStyle(
+                      fontSize: descriptionSize,
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
                 ),
               ],

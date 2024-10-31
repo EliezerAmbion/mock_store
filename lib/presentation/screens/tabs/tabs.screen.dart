@@ -43,7 +43,7 @@ class _TabsScreenState extends State<TabsScreen> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.sizeOf(context).width;
-    final isMobile = screenWidth < 600;
+    final isMobile = screenWidth < 700;
 
     return Scaffold(
       appBar: _selectedPageIndex == 0
