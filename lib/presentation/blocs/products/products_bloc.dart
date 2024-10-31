@@ -15,7 +15,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   final DeleteProductUseCase _deleteProductUseCase;
 
   List<ProductsModel> _allProducts = [];
-  bool _isAscending = true;
+  // bool _isAscending = true;
   bool _isDataLoaded = false;
 
   ProductsBloc(this._getProductsUseCase, this._addProductUseCase,
@@ -23,7 +23,8 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       : super(const ProductsInitial()) {
     on<GetProducts>(onGetProducts);
     on<SearchProducts>(onSearchProducts);
-    on<SortProducts>(onSortProducts);
+    on<SortProductsByTitle>(onSortProductsByTitle);
+    on<SortProductsByPrice>(onSortProductsByPrice);
     on<WishlistProduct>(onWishlist);
     on<AddProduct>(onAddProduct);
     on<DeleteProduct>(onDeleteProduct);
@@ -103,12 +104,27 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     }
   }
 
-  void onSortProducts(SortProducts event, Emitter<ProductsState> emit) {
-    _isAscending = event.isAscending;
+  void onSortProductsByTitle(
+      SortProductsByTitle event, Emitter<ProductsState> emit) {
+    // _isAscending = event.isAscending;
     final sortedProducts = List<ProductsModel>.from(_allProducts);
 
     sortedProducts.sort((a, b) {
-      return _isAscending
+      return event.isAscending
+          ? a.title.compareTo(b.title)
+          : b.title.compareTo(a.title);
+    });
+
+    emit(ProductsLoaded(sortedProducts));
+  }
+
+  void onSortProductsByPrice(
+      SortProductsByPrice event, Emitter<ProductsState> emit) {
+    // _isAscending = event.isAscending;
+    final sortedProducts = List<ProductsModel>.from(_allProducts);
+
+    sortedProducts.sort((a, b) {
+      return event.isAscending
           ? a.price.compareTo(b.price)
           : b.price.compareTo(a.price);
     });
@@ -127,9 +143,10 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
 
     final sortedProducts = List<ProductsModel>.from(_allProducts);
     sortedProducts.sort((a, b) {
-      return _isAscending
-          ? a.price.compareTo(b.price)
-          : b.price.compareTo(a.price);
+      return a.price.compareTo(b.price);
+      // return _isAscending
+      //     ? a.price.compareTo(b.price)
+      //     : b.price.compareTo(a.price);
     });
 
     emit(ProductsLoaded(sortedProducts));
