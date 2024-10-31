@@ -12,6 +12,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   final GetProductsUseCase _getProductsUseCase;
   final GetProductByIdUseCase _getProductByIdUseCase;
   List<ProductsModel> _allProducts = [];
+  bool _isAscending = true;
 
   ProductsBloc(this._getProductsUseCase, this._getProductByIdUseCase)
       : super(const ProductsInitial()) {
@@ -32,7 +33,10 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         return;
       }
 
-      emit(ProductsLoaded(products));
+      final sortedProducts = List<ProductsModel>.from(products)
+        ..sort((a, b) => a.price.compareTo(b.price));
+
+      emit(ProductsLoaded(sortedProducts));
       return;
     } catch (e) {
       emit(ProductsError(DioException(
@@ -70,13 +74,13 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   }
 
   void onSortProducts(SortProducts event, Emitter<ProductsState> emit) {
+    _isAscending = event.isAscending;
     final sortedProducts = List<ProductsModel>.from(_allProducts);
+
     sortedProducts.sort((a, b) {
-      if (event.isAscending) {
-        return a.price.compareTo(b.price);
-      } else {
-        return b.price.compareTo(a.price);
-      }
+      return _isAscending
+          ? a.price.compareTo(b.price)
+          : b.price.compareTo(a.price);
     });
 
     emit(ProductsLoaded(sortedProducts));
@@ -91,6 +95,13 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       return product == event.product ? updatedProduct : product;
     }).toList();
 
-    emit(ProductsLoaded(_allProducts));
+    final sortedProducts = List<ProductsModel>.from(_allProducts);
+    sortedProducts.sort((a, b) {
+      return _isAscending
+          ? a.price.compareTo(b.price)
+          : b.price.compareTo(a.price);
+    });
+
+    emit(ProductsLoaded(sortedProducts));
   }
 }
