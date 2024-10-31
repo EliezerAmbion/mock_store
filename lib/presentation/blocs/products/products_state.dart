@@ -4,8 +4,9 @@ abstract class ProductsState extends Equatable {
   final List<ProductsModel>? products;
   final ProductsModel? product;
   final DioException? error;
+  final bool? isAdded;
 
-  const ProductsState({this.products, this.product, this.error});
+  const ProductsState({this.products, this.product, this.error, this.isAdded});
 
   @override
   List<Object> get props => [products ?? [], product ?? [], error ?? 'Error'];
@@ -26,4 +27,8 @@ class ProductDetailLoaded extends ProductsState {
 
 final class ProductsError extends ProductsState {
   const ProductsError(DioException error) : super(error: error);
+}
+
+final class ProductAddedSuccessful extends ProductsState {
+  const ProductAddedSuccessful(bool isAdded) : super(isAdded: isAdded);
 }

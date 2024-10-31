@@ -114,6 +114,8 @@ class AddProductDialogWidget extends StatelessWidget {
                           context
                               .read<ProductsBloc>()
                               .add(AddProduct(newProduct));
+
+                          Navigator.pop(context);
                         },
                         child: const Text('Add'),
                       ),

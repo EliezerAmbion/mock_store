@@ -60,6 +60,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       final sortedProducts = List<ProductsModel>.from(_allProducts)
         ..sort((a, b) => a.price.compareTo(b.price));
 
+      emit(const ProductAddedSuccessful(true));
       emit(ProductsLoaded(List.from(sortedProducts)));
     } catch (e) {
       emit(ProductsError(DioException(
