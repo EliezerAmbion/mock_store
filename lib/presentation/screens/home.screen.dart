@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
               SnackBar(
                 content: Center(
                   child: Text(
-                    state.errorMessage.toString(),
+                    state.error.toString(),
                   ),
                 ),
               ),
@@ -79,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
             return Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 8.0, vertical: 25),
-              child: ProductsGridWidget(products: state.products),
+              child: ProductsGridWidget(products: state.products ?? []),
             );
           }
 

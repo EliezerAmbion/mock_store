@@ -15,6 +15,7 @@ ProductsModel _$ProductsModelFromJson(Map<String, dynamic> json) =>
       category: json['category'] as String,
       image: json['image'] as String,
       rating: RatingModel.fromJson(json['rating'] as Map<String, dynamic>),
+      isWishListed: json['isWishListed'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$ProductsModelToJson(ProductsModel instance) =>
@@ -26,4 +27,5 @@ Map<String, dynamic> _$ProductsModelToJson(ProductsModel instance) =>
       'category': instance.category,
       'image': instance.image,
       'rating': instance.rating,
+      'isWishListed': instance.isWishListed,
     };

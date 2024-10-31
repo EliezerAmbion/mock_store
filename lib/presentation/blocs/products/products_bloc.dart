@@ -14,11 +14,12 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   List<ProductsModel> _allProducts = [];
 
   ProductsBloc(this._getProductsUseCase, this._getProductByIdUseCase)
-      : super(ProductsInitial()) {
+      : super(const ProductsInitial()) {
     on<GetProducts>(onGetProducts);
     on<GetProductById>(onGetProductById);
     on<SearchProducts>(onSearchProducts);
     on<SortProducts>(onSortProducts);
+    on<WishlistProduct>(onWishlist);
   }
 
   void onGetProducts(GetProducts event, Emitter<ProductsState> emit) async {
@@ -79,5 +80,17 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     });
 
     emit(ProductsLoaded(sortedProducts));
+  }
+
+  void onWishlist(WishlistProduct event, Emitter<ProductsState> emit) {
+    final updatedProduct = event.product.copyWith(
+      isWishListed: !event.product.isWishListed,
+    );
+
+    _allProducts = _allProducts.map((product) {
+      return product == event.product ? updatedProduct : product;
+    }).toList();
+
+    emit(ProductsLoaded(_allProducts));
   }
 }

@@ -18,7 +18,7 @@ class ProductsGridWidget extends StatelessWidget {
             SnackBar(
               content: Center(
                 child: Text(
-                  state.errorMessage.toString(),
+                  state.error.toString(),
                 ),
               ),
             ),

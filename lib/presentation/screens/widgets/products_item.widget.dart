@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mock_store/data/models/products/products.model.dart';
+import 'package:mock_store/presentation/blocs/products/products_bloc.dart';
 import 'package:mock_store/presentation/screens/product_detail/product_detail.screen.dart';
 
 class ProductsItemWidget extends StatelessWidget {
@@ -56,7 +58,15 @@ class ProductsItemWidget extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               backgroundColor: Colors.black54,
-              leading: const Icon(Icons.favorite_border),
+              leading: GestureDetector(
+                onTap: () {
+                  context.read<ProductsBloc>().add(WishlistProduct(product));
+                },
+                child: Icon(
+                  product.isWishListed ? Icons.favorite : Icons.favorite_border,
+                  color: product.isWishListed ? Colors.red : null,
+                ),
+              ),
             ),
           ),
           child: ClipRRect(
