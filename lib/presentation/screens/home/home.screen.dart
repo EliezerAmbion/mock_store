@@ -85,23 +85,6 @@ class _HomeScreenState extends State<HomeScreen> {
           return const SizedBox.shrink();
         },
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite), // Change icon as needed
-            label: 'Wishlist',
-          ),
-        ],
-        // currentIndex: _currentIndex,
-        // onTap: _onItemTapped,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
-        backgroundColor: Colors.black,
-      ),
     );
   }
 }

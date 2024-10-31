@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mock_store/presentation/blocs/app_bloc_injection.dart';
+import 'package:mock_store/presentation/screens/tabs/tabs.screen.dart';
 import 'package:mock_store/utils/dependency_injection.dart';
-import 'package:mock_store/utils/routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,14 +17,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: AppBlocInjection.getProviders(),
-      child: MaterialApp.router(
-        routerConfig: router,
+      child: MaterialApp(
         title: 'Mock Store',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
+        routes: {
+          '/': (context) => const TabsScreen(),
+        },
       ),
     );
   }
