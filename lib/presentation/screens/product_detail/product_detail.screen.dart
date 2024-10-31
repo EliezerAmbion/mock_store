@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:mock_store/data/models/products/products.model.dart';
 import 'package:mock_store/presentation/blocs/products/products_bloc.dart';
+import 'package:mock_store/presentation/screens/product_detail/widgets/delete_confirmation_dialog.widget.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   final ProductsModel product;
@@ -44,42 +45,8 @@ class ProductDetailScreen extends StatelessWidget {
               onPressed: () {
                 showDialog(
                   context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: const Text(
-                        'Confirm Deletion',
-                        textAlign: TextAlign.center,
-                      ),
-                      content: const Text(
-                          'Are you sure you want to delete this product?'),
-                      actions: [
-                        // Cancel
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          child: const Text('Cancel'),
-                        ),
-
-                        // Confirm Deletion
-                        TextButton(
-                          onPressed: () {
-                            context
-                                .read<ProductsBloc>()
-                                .add(DeleteProduct(product.id!));
-                            Navigator.of(context).pop();
-
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Product deleted successfully'),
-                              ),
-                            );
-
-                            Navigator.of(context).pop(); // Navigate back
-                          },
-                          child: const Text('Delete'),
-                        ),
-                      ],
-                    );
-                  },
+                  builder: (context) =>
+                      DeleteConfirmationDialogWidget(id: product.id!),
                 );
               },
               icon: const Icon(Icons.delete),

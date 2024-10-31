@@ -10,6 +10,18 @@ class ProductsGridWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<ProductsBloc, ProductsState>(
       listener: (context, state) {
+        if (state is ProductDeletedSuccessful) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              backgroundColor: Colors.teal,
+              behavior: SnackBarBehavior.floating,
+              content: Center(
+                child: Text('Product deleted successfully'),
+              ),
+            ),
+          );
+        }
+
         if (state is ProductAddedSuccessful) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(

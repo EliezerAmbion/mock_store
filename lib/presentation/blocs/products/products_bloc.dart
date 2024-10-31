@@ -80,6 +80,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
 
       _allProducts.removeWhere((product) => product.id == event.id);
 
+      emit(const ProductDeletedSuccessful(true));
       emit(ProductsLoaded(List.from(_allProducts)));
     } catch (e) {
       emit(ProductsError(DioException(

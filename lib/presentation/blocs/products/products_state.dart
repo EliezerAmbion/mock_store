@@ -32,3 +32,7 @@ final class ProductsError extends ProductsState {
 final class ProductAddedSuccessful extends ProductsState {
   const ProductAddedSuccessful(bool isAdded) : super(isAdded: isAdded);
 }
+
+final class ProductDeletedSuccessful extends ProductsState {
+  const ProductDeletedSuccessful(bool isAdded) : super(isAdded: isAdded);
+}
