@@ -76,9 +76,9 @@ class _HomeScreenState extends State<HomeScreen> {
               child: CircularProgressIndicator(),
             );
           } else if (state is ProductsLoaded) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
-              child: ProductsGridWidget(products: state.products ?? []),
+            return const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
+              child: ProductsGridWidget(),
             );
           }
 

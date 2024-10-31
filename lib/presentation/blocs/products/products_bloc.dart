@@ -13,6 +13,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   final GetProductByIdUseCase _getProductByIdUseCase;
   List<ProductsModel> _allProducts = [];
   bool _isAscending = true;
+  bool _isDataLoaded = false;
 
   ProductsBloc(this._getProductsUseCase, this._getProductByIdUseCase)
       : super(const ProductsInitial()) {
@@ -24,6 +25,8 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   }
 
   void onGetProducts(GetProducts event, Emitter<ProductsState> emit) async {
+    if (_isDataLoaded) return;
+
     try {
       final products = await _getProductsUseCase();
       _allProducts = products;
@@ -37,6 +40,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         ..sort((a, b) => a.price.compareTo(b.price));
 
       emit(ProductsLoaded(sortedProducts));
+      _isDataLoaded = true;
       return;
     } catch (e) {
       emit(ProductsError(DioException(
