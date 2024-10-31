@@ -18,6 +18,10 @@ abstract class ProductsService {
   @GET('/products')
   Future<HttpResponse<List<ProductsModel>>> getProducts();
 
-  @GET('/products/{id}')
-  Future<HttpResponse<ProductsModel>> getProductById(@Path("id") int id);
+  // @POST('/products')
+  // Future<HttpResponse<ProductsModel>> addProduct(@Body() ProductsModel product);
+
+  @POST('/products')
+  Future<HttpResponse<ProductsModel>> addProduct(
+      @Body() Map<String, dynamic> product);
 }

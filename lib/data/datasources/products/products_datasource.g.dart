@@ -60,19 +60,21 @@ class _ProductsService implements ProductsService {
   }
 
   @override
-  Future<HttpResponse<ProductsModel>> getProductById(int id) async {
+  Future<HttpResponse<ProductsModel>> addProduct(
+      Map<String, dynamic> product) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final _data = <String, dynamic>{};
+    _data.addAll(product);
     final _options = _setStreamType<HttpResponse<ProductsModel>>(Options(
-      method: 'GET',
+      method: 'POST',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          '/products/${id}',
+          '/products',
           queryParameters: queryParameters,
           data: _data,
         )

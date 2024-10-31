@@ -25,4 +25,20 @@ class ProductsRepositoryImpl implements ProductsRepository {
       throw Exception(e.toString());
     }
   }
+
+  @override
+  Future<ProductsModel> addProduct(ProductsModel product) async {
+    try {
+      final response = await _productsService.addProduct(product.toJson());
+
+      if (response.response.statusCode != HttpStatus.created) {
+        throw Exception(
+            'Failed to add product. Error: ${response.response.statusCode}');
+      }
+
+      return response.data;
+    } catch (e) {
+      throw Exception('Error adding product: ${e.toString()}');
+    }
+  }
 }

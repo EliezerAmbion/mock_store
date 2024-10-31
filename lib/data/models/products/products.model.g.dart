@@ -8,13 +8,15 @@ part of 'products.model.dart';
 
 ProductsModel _$ProductsModelFromJson(Map<String, dynamic> json) =>
     ProductsModel(
-      id: (json['id'] as num).toInt(),
+      id: (json['id'] as num?)?.toInt(),
       title: json['title'] as String,
       price: (json['price'] as num).toDouble(),
       description: json['description'] as String,
       category: json['category'] as String,
       image: json['image'] as String,
-      rating: RatingModel.fromJson(json['rating'] as Map<String, dynamic>),
+      rating: json['rating'] == null
+          ? null
+          : RatingModel.fromJson(json['rating'] as Map<String, dynamic>),
       isWishListed: json['isWishListed'] as bool? ?? false,
     );
 

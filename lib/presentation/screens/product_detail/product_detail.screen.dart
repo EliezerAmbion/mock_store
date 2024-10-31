@@ -81,7 +81,7 @@ class ProductDetailScreen extends StatelessWidget {
                       ),
                       const Gap(2),
                       Text(
-                        '${product.rating.rate.toString()} Ratings',
+                        '${product.rating?.rate.toString()} Ratings',
                         style: const TextStyle(
                           fontSize: 13,
                           color: Colors.black54,
@@ -99,7 +99,7 @@ class ProductDetailScreen extends StatelessWidget {
                       ),
                       const Gap(2),
                       Text(
-                        '${product.rating.count.toString()} Reviews',
+                        '${product.rating?.count.toString()} Reviews',
                         style: const TextStyle(
                           fontSize: 13,
                           color: Colors.black54,
