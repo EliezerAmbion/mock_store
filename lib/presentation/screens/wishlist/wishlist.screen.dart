@@ -23,16 +23,20 @@ class WishListScreen extends StatelessWidget {
             return LayoutBuilder(builder: (context, constraints) {
               int crossAxisCount;
               double horizontalPadding;
+              double titleSize;
 
               if (constraints.maxWidth < 700) {
                 crossAxisCount = 2;
                 horizontalPadding = 5;
+                titleSize = 14;
               } else if (constraints.maxWidth < 900) {
                 crossAxisCount = 3;
                 horizontalPadding = 50;
+                titleSize = 16;
               } else {
                 crossAxisCount = 4;
                 horizontalPadding = 100;
+                titleSize = 18;
               }
 
               return CustomScrollView(
@@ -44,7 +48,10 @@ class WishListScreen extends StatelessWidget {
                       itemCount: wishListedProducts.length,
                       itemBuilder: (context, index) {
                         final product = wishListedProducts[index];
-                        return ProductsItemWidget(product: product);
+                        return ProductsItemWidget(
+                          product: product,
+                          titleSize: titleSize,
+                        );
                       },
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: crossAxisCount,

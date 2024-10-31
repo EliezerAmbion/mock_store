@@ -6,8 +6,13 @@ import 'package:mock_store/presentation/screens/product_detail/product_detail.sc
 
 class ProductsItemWidget extends StatelessWidget {
   final ProductsModel product;
+  final double titleSize;
 
-  const ProductsItemWidget({required this.product, super.key});
+  const ProductsItemWidget({
+    required this.product,
+    required this.titleSize,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +46,11 @@ class ProductsItemWidget extends StatelessWidget {
                 child: Text(
                   '\$${product.price.toString()}',
                   textAlign: TextAlign.right,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.white),
+                  style: TextStyle(
+                    fontSize: titleSize,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
@@ -56,6 +64,7 @@ class ProductsItemWidget extends StatelessWidget {
               title: Text(
                 product.title,
                 textAlign: TextAlign.center,
+                style: TextStyle(fontSize: titleSize),
               ),
               backgroundColor: Colors.black54,
               leading: GestureDetector(
