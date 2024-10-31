@@ -13,19 +13,28 @@ class ProductsGridWidget extends StatelessWidget {
       listener: (context, state) {
         if (state is ProductDeletedSuccessful) {
           ScaffoldMessenger.of(context).showSnackBar(
-            CustomSnackBar(text: 'Product deleted successfully'),
+            CustomSnackBar(
+              text: 'Product deleted successfully',
+              context: context,
+            ),
           );
         }
 
         if (state is ProductAddedSuccessful) {
           ScaffoldMessenger.of(context).showSnackBar(
-            CustomSnackBar(text: 'Product added successfully'),
+            CustomSnackBar(
+              text: 'Product added successfully',
+              context: context,
+            ),
           );
         }
 
         if (state is ProductsError) {
           ScaffoldMessenger.of(context).showSnackBar(
-            CustomSnackBar(text: state.error.toString()),
+            CustomSnackBar(
+              text: state.error.toString(),
+              context: context,
+            ),
           );
         }
       },

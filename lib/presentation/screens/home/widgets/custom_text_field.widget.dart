@@ -5,11 +5,13 @@ class CustomTextFieldWidget extends StatelessWidget {
   final TextEditingController controller;
   final String? Function(String?)? validator;
   final TextInputType? textInputType;
+  final bool isMobile;
 
   const CustomTextFieldWidget({
     required this.labelText,
     required this.controller,
     required this.validator,
+    required this.isMobile,
     this.textInputType,
     super.key,
   });
@@ -34,9 +36,11 @@ class CustomTextFieldWidget extends StatelessWidget {
       keyboardType: textInputType ?? TextInputType.text,
       decoration: InputDecoration(
         labelText: labelText,
-        isDense: true,
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        isDense: isMobile,
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: isMobile ? 10 : 18,
+          vertical: isMobile ? 10 : 18,
+        ),
 
         // border unfocused
         enabledBorder: customOutlineInputBorder(
