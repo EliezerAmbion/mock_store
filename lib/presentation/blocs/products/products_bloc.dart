@@ -39,23 +39,12 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       final products = await _getProductsUseCase();
       _allProducts = products;
 
-      if (products.isEmpty) {
-        emit(const ProductsLoaded([]));
-        return;
-      }
-
-      final sortedProducts = List<ProductsModel>.from(products)
-        ..sort((a, b) => a.price.compareTo(b.price));
-
-      emit(ProductsLoaded(sortedProducts));
+      emit(products.isEmpty
+          ? const ProductsLoaded([])
+          : _sortProducts(products));
       _isDataLoaded = true;
-      return;
     } catch (e) {
-      emit(ProductsError(DioException(
-        requestOptions: RequestOptions(path: '/products'),
-        error: e.toString(),
-      )));
-      throw Exception(e.toString());
+      emit(_handleError(e));
     }
   }
 
@@ -64,86 +53,44 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       final addedProduct = await _addProductUseCase(event.product);
       _allProducts.add(addedProduct);
 
-      final sortedProducts = List<ProductsModel>.from(_allProducts)
-        ..sort((a, b) => a.price.compareTo(b.price));
-
       emit(const ProductAddedSuccessful(true));
-      emit(ProductsLoaded(List.from(sortedProducts)));
+      emit(_sortProducts(_allProducts));
     } catch (e) {
-      emit(ProductsError(DioException(
-        requestOptions: RequestOptions(path: '/products'),
-        error: e.toString(),
-      )));
+      emit(_handleError(e));
     }
   }
 
   void onDeleteProduct(DeleteProduct event, Emitter<ProductsState> emit) async {
     try {
       await _deleteProductUseCase(event.id);
-
       _allProducts.removeWhere((product) => product.id == event.id);
-
       emit(const ProductDeletedSuccessful(true));
-      emit(ProductsLoaded(List.from(_allProducts)));
+      emit(_sortProducts(_allProducts));
     } catch (e) {
-      emit(ProductsError(DioException(
-        requestOptions: RequestOptions(path: '/products'),
-        error: e.toString(),
-      )));
+      emit(_handleError(e));
     }
   }
 
   void onSearchProducts(SearchProducts event, Emitter<ProductsState> emit) {
     final query = event.query.toLowerCase();
-    if (_allProducts.isNotEmpty) {
-      final filteredProducts = _allProducts
-          .where((product) => product.title.toLowerCase().contains(query))
-          .toList();
+    final filteredProducts = _allProducts
+        .where((product) => product.title.toLowerCase().contains(query))
+        .toList();
 
-      emit(ProductsLoaded(filteredProducts));
-    } else {
-      emit(const ProductsLoaded([]));
-    }
+    emit(_sortProducts(filteredProducts.isNotEmpty ? filteredProducts : []));
   }
 
   void onSortProductsByTitle(
       SortProductsByTitle event, Emitter<ProductsState> emit) {
-    final sortedProducts = List<ProductsModel>.from(_allProducts);
-
-    if (event.isAscendingByTitle) {
-      _sorting = Sorting.ascending;
-      sortedProducts.sort((a, b) {
-        return a.title.compareTo(b.title);
-      });
-    }
-    if (!event.isAscendingByTitle) {
-      _sorting = Sorting.descending;
-      sortedProducts.sort((a, b) {
-        return b.title.compareTo(a.title);
-      });
-    }
-
-    emit(ProductsLoaded(sortedProducts));
+    _sorting =
+        event.isAscendingByTitle ? Sorting.ascending : Sorting.descending;
+    emit(_sortProducts(_allProducts));
   }
 
   void onSortProductsByPrice(
       SortProductsByPrice event, Emitter<ProductsState> emit) {
-    final sortedProducts = List<ProductsModel>.from(_allProducts);
-
-    if (event.isAscendingByPrice) {
-      _sorting = Sorting.lowToHigh;
-      sortedProducts.sort((a, b) {
-        return a.price.compareTo(b.price);
-      });
-    }
-    if (!event.isAscendingByPrice) {
-      _sorting = Sorting.highToLow;
-      sortedProducts.sort((a, b) {
-        return b.price.compareTo(a.price);
-      });
-    }
-
-    emit(ProductsLoaded(sortedProducts));
+    _sorting = event.isAscendingByPrice ? Sorting.lowToHigh : Sorting.highToLow;
+    emit(_sortProducts(_allProducts));
   }
 
   void onWishlist(WishlistProduct event, Emitter<ProductsState> emit) {
@@ -155,29 +102,35 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       return product == event.product ? updatedProduct : product;
     }).toList();
 
-    final sortedProducts = List<ProductsModel>.from(_allProducts);
-    if (_sorting == Sorting.ascending) {
-      sortedProducts.sort((a, b) {
-        return a.title.compareTo(b.title);
-      });
-    }
-    if (_sorting == Sorting.descending) {
-      sortedProducts.sort((a, b) {
-        return b.title.compareTo(a.title);
-      });
-    }
-    if (_sorting == Sorting.lowToHigh) {
-      sortedProducts.sort((a, b) {
-        return a.price.compareTo(b.price);
-      });
-    }
-    if (_sorting == Sorting.highToLow) {
-      sortedProducts.sort((a, b) {
-        return b.price.compareTo(a.price);
-      });
+    emit(_sortProducts(_allProducts));
+  }
+
+  ProductsState _sortProducts(List<ProductsModel> products) {
+    final sortedProducts = List<ProductsModel>.from(products);
+
+    switch (_sorting) {
+      case Sorting.ascending:
+        sortedProducts.sort((a, b) => a.title.compareTo(b.title));
+        break;
+      case Sorting.descending:
+        sortedProducts.sort((a, b) => b.title.compareTo(a.title));
+        break;
+      case Sorting.lowToHigh:
+        sortedProducts.sort((a, b) => a.price.compareTo(b.price));
+        break;
+      case Sorting.highToLow:
+        sortedProducts.sort((a, b) => b.price.compareTo(a.price));
+        break;
     }
 
-    emit(ProductsLoaded(sortedProducts));
+    return ProductsLoaded(sortedProducts);
+  }
+
+  ProductsError _handleError(dynamic error) {
+    return ProductsError(DioException(
+      requestOptions: RequestOptions(path: '/products'),
+      error: error.toString(),
+    ));
   }
 
   List<ProductsModel> get wishListedProducts {
