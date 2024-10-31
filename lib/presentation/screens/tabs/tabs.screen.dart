@@ -23,10 +23,12 @@ class _TabsScreenState extends State<TabsScreen> {
       {
         'page': const HomeScreen(),
         'title': 'Home',
+        'icon': Icons.home,
       },
       {
         'page': const WishListScreen(),
         'title': 'WishList',
+        'icon': Icons.favorite,
       },
     ];
     super.initState();

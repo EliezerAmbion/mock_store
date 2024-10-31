@@ -21,6 +21,9 @@ class _AppBarWithSearchWidgetState extends State<AppBarWithSearchWidget> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      iconTheme: const IconThemeData(
+        size: 30,
+      ),
       centerTitle: true,
       title: SizedBox(
         width: (widget.isMobile ?? false)

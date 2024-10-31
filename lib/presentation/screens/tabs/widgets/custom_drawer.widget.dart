@@ -30,6 +30,7 @@ class CustomDrawerWidget extends StatelessWidget {
             Map<String, dynamic> page = entry.value;
 
             return ListTile(
+              minVerticalPadding: 30,
               leading: Icon(
                 page['icon'],
                 color: selectedPageIndex == index ? Colors.teal : Colors.grey,
@@ -42,10 +43,14 @@ class CustomDrawerWidget extends StatelessWidget {
                   fontWeight: selectedPageIndex == index
                       ? FontWeight.bold
                       : FontWeight.normal,
+                  fontSize: 18,
                 ),
               ),
               selected: selectedPageIndex == index,
-              onTap: () => onSelectPage(index),
+              onTap: () {
+                onSelectPage(index);
+                Navigator.of(context).pop();
+              },
             );
           }),
         ],
