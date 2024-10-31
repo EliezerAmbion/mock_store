@@ -125,6 +125,10 @@ class AddProductDialogWidget extends StatelessWidget {
                         alignment: Alignment.centerRight,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: isMobile ? 35 : 40,
+                              vertical: isMobile ? 12 : 16,
+                            ),
                             backgroundColor: Colors.teal,
                             foregroundColor: Colors.white,
                           ),
@@ -167,6 +171,6 @@ class AddProductDialogWidget extends StatelessWidget {
   }
 
   Widget gapWidget(bool isMobile) {
-    return Gap(isMobile ? 10 : 18);
+    return Gap(isMobile ? 12 : 18);
   }
 }

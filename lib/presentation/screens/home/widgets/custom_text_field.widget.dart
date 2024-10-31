@@ -38,8 +38,8 @@ class CustomTextFieldWidget extends StatelessWidget {
         labelText: labelText,
         isDense: isMobile,
         contentPadding: EdgeInsets.symmetric(
-          horizontal: isMobile ? 10 : 18,
-          vertical: isMobile ? 10 : 18,
+          horizontal: isMobile ? 14 : 18,
+          vertical: isMobile ? 14 : 18,
         ),
 
         // border unfocused
