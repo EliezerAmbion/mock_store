@@ -22,17 +22,17 @@ class ProductDetailScreen extends StatelessWidget {
         CrossAxisAlignment adaptiveCrossAxisAlignment;
 
         if (constraints.maxWidth < 700) {
-          titleSize = 18;
-          categorySize = 16;
-          detailsSize = 18;
-          descriptionSize = 16;
+          titleSize = 16;
+          categorySize = 13;
+          detailsSize = 14;
+          descriptionSize = 14;
           boxFit = BoxFit.cover;
           adaptiveMainAxisAlignment = MainAxisAlignment.spaceBetween;
           adaptiveCrossAxisAlignment = CrossAxisAlignment.start;
         } else if (constraints.maxWidth < 900) {
-          titleSize = 22;
-          categorySize = 20;
-          detailsSize = 22;
+          titleSize = 20;
+          categorySize = 18;
+          detailsSize = 18;
           descriptionSize = 18;
           boxFit = BoxFit.cover;
           adaptiveMainAxisAlignment = MainAxisAlignment.spaceAround;
@@ -128,7 +128,7 @@ class ProductDetailScreen extends StatelessWidget {
                 Text(
                   '\$${product.price.toString()}',
                   style: TextStyle(
-                    fontSize: titleSize - 5,
+                    fontSize: titleSize,
                     color: Colors.black87,
                     fontWeight: FontWeight.bold,
                   ),
