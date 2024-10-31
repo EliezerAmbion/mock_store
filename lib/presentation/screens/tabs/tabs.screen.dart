@@ -54,13 +54,15 @@ class _TabsScreenState extends State<TabsScreen> {
           gap: 8,
           padding: const EdgeInsets.all(16),
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          tabs: const [
-            GButton(
+          tabs: [
+            const GButton(
               icon: Icons.home,
               text: 'Home',
             ),
             GButton(
-              icon: Icons.favorite_border,
+              icon: _selectedPageIndex == 1
+                  ? Icons.favorite
+                  : Icons.favorite_border,
               text: 'WishList',
             ),
           ],
