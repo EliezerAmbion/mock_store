@@ -25,21 +25,4 @@ class ProductsRepositoryImpl implements ProductsRepository {
       throw Exception(e.toString());
     }
   }
-
-  @override
-  Future<ProductsModel> getProductById(int id) async {
-    try {
-      final response = await _productsService.getProductById(id);
-
-      if (response.response.statusCode != HttpStatus.ok) {
-        throw Exception(
-            'Failed to load a product. Error: ${response.response.statusCode}');
-      }
-
-      final ProductsModel product = response.data;
-      return product;
-    } catch (e) {
-      throw Exception(e.toString());
-    }
-  }
 }
