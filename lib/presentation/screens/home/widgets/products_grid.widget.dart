@@ -33,22 +33,33 @@ class ProductsGridWidget extends StatelessWidget {
         if (state is ProductsLoaded) {
           final products = state.products ?? [];
 
-          return CustomScrollView(
-            slivers: [
-              SliverGrid.builder(
-                itemCount: products.length,
-                itemBuilder: (context, index) {
-                  return ProductsItemWidget(product: products[index]);
-                },
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 3 / 3,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
+          return LayoutBuilder(builder: (context, constraints) {
+            int crossAxisCount;
+            if (constraints.maxWidth < 600) {
+              crossAxisCount = 2;
+            } else if (constraints.maxWidth < 900) {
+              crossAxisCount = 3;
+            } else {
+              crossAxisCount = 4;
+            }
+
+            return CustomScrollView(
+              slivers: [
+                SliverGrid.builder(
+                  itemCount: products.length,
+                  itemBuilder: (context, index) {
+                    return ProductsItemWidget(product: products[index]);
+                  },
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: crossAxisCount,
+                    childAspectRatio: 3 / 3,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                  ),
                 ),
-              ),
-            ],
-          );
+              ],
+            );
+          });
         }
         return const Center(
           child: CircularProgressIndicator(),
