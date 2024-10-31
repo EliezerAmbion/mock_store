@@ -29,8 +29,24 @@ class AddProductDialogWidget extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text('Add a Product'),
-                const Gap(10),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: const Icon(
+                      Icons.close,
+                      size: 20,
+                    ),
+                  ),
+                ),
+                const Text(
+                  'Add a Product',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                  ),
+                ),
+                const Gap(20),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

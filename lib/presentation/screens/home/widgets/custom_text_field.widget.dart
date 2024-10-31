@@ -46,7 +46,7 @@ class CustomTextFieldWidget extends StatelessWidget {
 
         // border focused
         focusedBorder: customOutlineInputBorder(
-          color: Colors.black,
+          color: Colors.teal,
           width: 2,
         ),
 
