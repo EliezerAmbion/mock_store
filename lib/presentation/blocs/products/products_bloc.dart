@@ -183,4 +183,6 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   List<ProductsModel> get wishListedProducts {
     return _allProducts.where((product) => product.isWishListed).toList();
   }
+
+  Sorting get currentSorting => _sorting;
 }
