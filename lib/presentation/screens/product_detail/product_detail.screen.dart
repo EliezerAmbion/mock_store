@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:mock_store/data/models/products/products.model.dart';
+import 'package:mock_store/presentation/blocs/products/products_bloc.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   final ProductsModel product;
@@ -14,8 +16,26 @@ class ProductDetailScreen extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 25),
-            child: GestureDetector(
-              child: const Icon(Icons.favorite_border),
+            child: BlocBuilder<ProductsBloc, ProductsState>(
+              builder: (context, state) {
+                final updatedProduct = (state as ProductsLoaded)
+                    .products
+                    ?.firstWhere((p) => p.id == product.id);
+
+                return GestureDetector(
+                  onTap: () {
+                    context
+                        .read<ProductsBloc>()
+                        .add(WishlistProduct(updatedProduct));
+                  },
+                  child: Icon(
+                    updatedProduct!.isWishListed
+                        ? Icons.favorite
+                        : Icons.favorite_border,
+                    color: updatedProduct.isWishListed ? Colors.red : null,
+                  ),
+                );
+              },
             ),
           ),
         ],
