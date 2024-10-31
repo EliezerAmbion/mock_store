@@ -24,8 +24,5 @@ Future<void> initializeDependencies() async {
   getIt.registerSingleton<AddProductUseCase>(AddProductUseCase(getIt()));
 
   // Blocs
-  getIt.registerFactory<ProductsBloc>(() => ProductsBloc(
-        getIt(),
-        getIt(),
-      ));
+  getIt.registerFactory<ProductsBloc>(() => ProductsBloc(getIt()));
 }
