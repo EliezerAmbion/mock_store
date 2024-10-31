@@ -4,6 +4,7 @@ import 'package:mock_store/data/datasources/products/products_datasource.dart';
 import 'package:mock_store/data/repositories/products_repository_impl.dart';
 import 'package:mock_store/domain/repositories/products/products_repository.dart';
 import 'package:mock_store/domain/usecases/add_product.usecase.dart';
+import 'package:mock_store/domain/usecases/delete_product.usecase.dart';
 import 'package:mock_store/domain/usecases/get_products.usecase.dart';
 import 'package:mock_store/presentation/blocs/products/products_bloc.dart';
 
@@ -22,9 +23,11 @@ Future<void> initializeDependencies() async {
   // UseCases
   getIt.registerSingleton<GetProductsUseCase>(GetProductsUseCase(getIt()));
   getIt.registerSingleton<AddProductUseCase>(AddProductUseCase(getIt()));
+  getIt.registerSingleton<DeleteProductUseCase>(DeleteProductUseCase(getIt()));
 
   // Blocs
   getIt.registerFactory<ProductsBloc>(() => ProductsBloc(
+        getIt(),
         getIt(),
         getIt(),
       ));

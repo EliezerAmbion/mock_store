@@ -15,7 +15,7 @@ class ProductDetailScreen extends StatelessWidget {
       appBar: AppBar(
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 25),
+            padding: const EdgeInsets.only(right: 10),
             child: BlocBuilder<ProductsBloc, ProductsState>(
               builder: (context, state) {
                 final updatedProduct = (state as ProductsLoaded)
@@ -36,6 +36,53 @@ class ProductDetailScreen extends StatelessWidget {
                   ),
                 );
               },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: IconButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: const Text(
+                        'Confirm Deletion',
+                        textAlign: TextAlign.center,
+                      ),
+                      content: const Text(
+                          'Are you sure you want to delete this product?'),
+                      actions: [
+                        // Cancel
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: const Text('Cancel'),
+                        ),
+
+                        // Confirm Deletion
+                        TextButton(
+                          onPressed: () {
+                            context
+                                .read<ProductsBloc>()
+                                .add(DeleteProduct(product.id!));
+                            Navigator.of(context).pop();
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Product deleted successfully'),
+                              ),
+                            );
+
+                            Navigator.of(context).pop(); // Navigate back
+                          },
+                          child: const Text('Delete'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              icon: const Icon(Icons.delete),
             ),
           ),
         ],

@@ -41,4 +41,18 @@ class ProductsRepositoryImpl implements ProductsRepository {
       throw Exception('Error adding product: ${e.toString()}');
     }
   }
+
+  @override
+  Future<void> deleteProduct(int id) async {
+    try {
+      final response = await _productsService.deleteProduct(id);
+
+      if (response.response.statusCode != HttpStatus.ok) {
+        throw Exception(
+            'Failed to delete product. Error: ${response.response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error deleting product: ${e.toString()}');
+    }
+  }
 }

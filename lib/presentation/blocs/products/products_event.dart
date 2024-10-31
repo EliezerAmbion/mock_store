@@ -10,14 +10,6 @@ class GetProducts extends ProductsEvent {
   const GetProducts();
 }
 
-class GetProductById extends ProductsEvent {
-  final int id;
-
-  const GetProductById(this.id);
-  @override
-  List<Object> get props => [id];
-}
-
 class SearchProducts extends ProductsEvent {
   final String query;
 
@@ -50,4 +42,13 @@ class AddProduct extends ProductsEvent {
 
   @override
   List<Object?> get props => [product];
+}
+
+class DeleteProduct extends ProductsEvent {
+  final int id;
+
+  const DeleteProduct(this.id);
+
+  @override
+  List<Object> get props => [id];
 }
