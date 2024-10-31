@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mock_store/presentation/blocs/products/products_bloc.dart';
 import 'package:mock_store/presentation/screens/home/widgets/products_item.widget.dart';
+import 'package:mock_store/utils/custom_snackbar.dart';
 
 class ProductsGridWidget extends StatelessWidget {
   const ProductsGridWidget({super.key});
@@ -12,37 +13,19 @@ class ProductsGridWidget extends StatelessWidget {
       listener: (context, state) {
         if (state is ProductDeletedSuccessful) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              backgroundColor: Colors.teal,
-              behavior: SnackBarBehavior.floating,
-              content: Center(
-                child: Text('Product deleted successfully'),
-              ),
-            ),
+            CustomSnackBar(text: 'Product deleted successfully'),
           );
         }
 
         if (state is ProductAddedSuccessful) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              backgroundColor: Colors.teal,
-              behavior: SnackBarBehavior.floating,
-              content: Center(
-                child: Text('Product added successfully'),
-              ),
-            ),
+            CustomSnackBar(text: 'Product added successfully'),
           );
         }
 
         if (state is ProductsError) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Center(
-                child: Text(
-                  state.error.toString(),
-                ),
-              ),
-            ),
+            CustomSnackBar(text: state.error.toString()),
           );
         }
       },

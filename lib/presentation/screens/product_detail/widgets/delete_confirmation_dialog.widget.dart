@@ -28,16 +28,6 @@ class DeleteConfirmationDialogWidget extends StatelessWidget {
             context.read<ProductsBloc>().add(DeleteProduct(id));
             Navigator.of(context).pop();
 
-            // ScaffoldMessenger.of(context).showSnackBar(
-            //   const SnackBar(
-            //     backgroundColor: Colors.teal,
-            //     behavior: SnackBarBehavior.floating,
-            //     content: Center(
-            //       child: Text('Product deleted successfully'),
-            //     ),
-            //   ),
-            // );
-
             Navigator.of(context).pop();
           },
           child: const Text('Delete'),
