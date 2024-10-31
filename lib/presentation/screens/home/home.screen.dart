@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mock_store/data/models/products/products.model.dart';
 import 'package:mock_store/presentation/blocs/products/products_bloc.dart';
+import 'package:mock_store/presentation/screens/home/widgets/add_product_dialog.widget.dart';
 import 'package:mock_store/presentation/screens/home/widgets/products_grid.widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -86,17 +86,15 @@ class _HomeScreenState extends State<HomeScreen> {
           return const SizedBox.shrink();
         },
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        final newProduct = ProductsModel(
-          title: 'AAAA',
-          price: 1.1,
-          description: 'AAA AAA',
-          image: 'https://i.pravatar.cc',
-          category: 'electronic',
-        );
-
-        context.read<ProductsBloc>().add(AddProduct(newProduct));
-      }),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.teal,
+        foregroundColor: Colors.white,
+        child: const Icon(Icons.add),
+        onPressed: () {
+          showDialog(
+              context: context, builder: (_) => const AddProductDialogWidget());
+        },
+      ),
     );
   }
 }

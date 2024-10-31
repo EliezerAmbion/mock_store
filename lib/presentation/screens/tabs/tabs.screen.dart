@@ -40,17 +40,17 @@ class _TabsScreenState extends State<TabsScreen> {
     return Scaffold(
       body: _pages[_selectedPageIndex]['page'],
       bottomNavigationBar: Container(
-        color: Colors.black,
+        color: Colors.teal,
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         child: GNav(
           onTabChange: (index) {
             _selectPage(index);
           },
           selectedIndex: _selectedPageIndex,
-          backgroundColor: Colors.black,
-          color: Colors.white,
-          activeColor: Colors.white,
-          tabBackgroundColor: Colors.grey.shade800,
+          backgroundColor: Colors.teal,
+          color: Colors.black,
+          activeColor: Colors.black,
+          tabBackgroundColor: Colors.white,
           gap: 8,
           padding: const EdgeInsets.all(16),
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
