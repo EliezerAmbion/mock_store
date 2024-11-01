@@ -17,8 +17,6 @@ class AppBarWithSearchWidget extends StatefulWidget
 }
 
 class _AppBarWithSearchWidgetState extends State<AppBarWithSearchWidget> {
-  // bool _isAscending = true;
-
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -53,12 +51,8 @@ class _AppBarWithSearchWidgetState extends State<AppBarWithSearchWidget> {
               showDialog(
                   context: context,
                   builder: (context) {
-                    return SortDialogWidget();
+                    return const SortDialogWidget();
                   });
-              //   setState(() {
-              //     _isAscending = !_isAscending;
-              //   });
-              //   context.read<ProductsBloc>().add(SortProducts(_isAscending));
             },
             child: const Icon(Icons.sort),
           ),
